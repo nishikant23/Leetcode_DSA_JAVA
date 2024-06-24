@@ -1,0 +1,1 @@
+<h2>maximize-total-cost-of-alternating-subarrays Notes</h2><hr>[ Time taken: 14 m 29 s ]
