@@ -17,10 +17,9 @@ class Solution {
     int i=0;
     public TreeNode balanceBST(TreeNode root) {
         List<Integer> ls = new ArrayList<>();
-        f(root, ls);
-        //Collections.sort(ls);
-        
-        return bbst(ls, 0, ls.size()-1);
+        f(root, ls); //in-order result store into list
+        //Collections.sort(ls); // no need test cases designed such a way
+        return bbst(ls, 0, ls.size()-1); //crt new Tree and returend
     }
     public void f(TreeNode root, List<Integer> ls) {
         if(root == null) return;
