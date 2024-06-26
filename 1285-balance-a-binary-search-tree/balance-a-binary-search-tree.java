@@ -18,9 +18,8 @@ class Solution {
     public TreeNode balanceBST(TreeNode root) {
         List<Integer> ls = new ArrayList<>();
         f(root, ls);
-        Collections.sort(ls);
+        //Collections.sort(ls);
         
-        //for(int a : ls) System.out.println("ls = "+a);
         return bbst(ls, 0, ls.size()-1);
     }
     public void f(TreeNode root, List<Integer> ls) {
