@@ -5,63 +5,61 @@ class Node {
     public Node() {
 
     }
-    public boolean containsKey(char ch) {
-        return (arr[ch -'a'] != null);
+    boolean containsKey(char ch){
+        return arr[ch - 'a'] != null;
     }
-    public void crtNode(char ch, Node node) {
-        arr[ch - 'a'] = node; //new node created at arr[null postn]
+    void putCharToNode(char ch, Node node) {
+         arr[ch - 'a'] = node; //if char not found in arr[26]-root/node create one at that posn
     }
-
-    public Node moveNodeToCurr(char ch) {
-        return arr[ch - 'a']; //moving RefNode to current created new node
+    Node moveToNewCrtedNode(char ch) {
+        return arr[ch -'a']; //nothing but holds the Newly crted refs node
     }
-    public void setEnd() {
-        flag  = true;
+    void setEnd() {
+        flag = true;
     }
-    public boolean isEnd() {
-        return flag;
+    boolean isEnd() {
+        return flag; //made inserted word end-empty-node flag=true, if not exist-word then it
+                     // won't have any end-empty-node hence its flag will not beee
     }
 }
 
 class Trie extends Node {
-    private Node root;
+    Node root;
     public Trie() {
         root  = new Node();
     }
+
     
     public void insert(String word) {
-        Node node  = root;
-        for(int  i=0; i<word.length(); i++){
-            if(!node.containsKey(word.charAt(i))){
-                node.crtNode(word.charAt(i), new Node());
-            }
-            node = node.moveNodeToCurr(word.charAt(i));
-        }
-        node.setEnd();
+       Node node = root;
+       for(int i=0; i<word.length(); i++) {
+        char ch = word.charAt(i);
+           if(!node.containsKey(ch)){
+              node.putCharToNode(ch, new Node()); //on curr-node create NewNode at ch-posn
+           }
+           node = node.moveToNewCrtedNode(ch);
+       }
+       node.setEnd(); //after word insert set its empty-last-node flag=true
     }
     
     public boolean search(String word) {
-        Node node  = root;
-        for(int  i=0; i<word.length(); i++){
-            if(!node.containsKey(word.charAt(i))){
-                return false; //if char not found
-            }
-            node = node.moveNodeToCurr(word.charAt(i));
-        }
-
-        return node.isEnd();
+       Node node = root;
+       for( int i=0; i<word.length(); i++) {
+        char ch = word.charAt(i);
+        if(!node.containsKey(ch)) return false;
+        node = node.moveToNewCrtedNode(ch);
+       }
+       return node.isEnd();
     }
     
     public boolean startsWith(String prefix) {
-        Node node  = root;
-        for(int  i=0; i<prefix.length(); i++){
-            if(!node.containsKey(prefix.charAt(i))){
-                return false; //if char not found
-            }
-            node = node.moveNodeToCurr(prefix.charAt(i));
-        }
-
-        return true;
+        Node node = root;
+       for( int i=0; i<prefix.length(); i++) {
+        char ch = prefix.charAt(i);
+        if(!node.containsKey(ch)) return false;
+        node = node.moveToNewCrtedNode(ch);
+       }
+       return true;
     }
 }
 
