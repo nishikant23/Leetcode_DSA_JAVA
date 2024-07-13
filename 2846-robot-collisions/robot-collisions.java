@@ -1,4 +1,3 @@
-
 class Solution {
     class Pair{
         int posn;
@@ -57,8 +56,9 @@ class Solution {
 
         List<Integer> ans = new ArrayList<>();
         for(int i=0; i<n; i++) { //run loop on posn array
-            if(map.containsKey(posn[i])) //the posn. present in Map
-               ans.add(map.get(posn[i]));  //as per posn-arr order return powrfull health robot
+            if(map.containsKey(posn[i])){ //the posn. present in Map
+               ans.add(map.get(posn[i])); 
+               } //as per posn-arr order return powrfull health robot
         } //into the answer list
         return ans;
     }
