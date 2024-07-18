@@ -14,52 +14,42 @@
  * }
  */
 class Solution {
-    public String getDirections(TreeNode root, int startValue, int destValue) {
-        // Find the paths to the start and destination nodes
-        List<Character> pathToStart = new ArrayList<>();
-        List<Character> pathToDest = new ArrayList<>();
+    public String getDirections(TreeNode root, int sv, int dv) {
+        root = lca(root, sv, dv);
+        StringBuilder path1 = new StringBuilder(); 
+        StringBuilder path2= new StringBuilder(); 
+
+        pathFind(root, sv, path1);
+        pathFind(root, dv, path2);
+
+        for(int i=0; i<path1.length(); i++)
+            path1.setCharAt(i, 'U');
         
-        findPath(root, startValue, new ArrayList<>(), pathToStart);
-        findPath(root, destValue, new ArrayList<>(), pathToDest);
-        
-        // Find the divergence point (LCA)
-        int i = 0;
-        while (i < pathToStart.size() && i < pathToDest.size() && pathToStart.get(i) == pathToDest.get(i)) {
-            i++;
-        }
-        
-        // Build the path
-        StringBuilder result = new StringBuilder();
-        for (int j = i; j < pathToStart.size(); j++) {
-            result.append('U');
-        }
-        for (int j = i; j < pathToDest.size(); j++) {
-            result.append(pathToDest.get(j));
-        }
-        
-        return result.toString();
+        return path1.append(path2).toString();
     }
-    
-    private boolean findPath(TreeNode root, int value, List<Character> currentPath, List<Character> resultPath) {
-        if (root == null) {
-            return false;
-        }
-        if (root.val == value) {
-            resultPath.addAll(currentPath);
-            return true;
-        }
-        currentPath.add('L');
-        if (findPath(root.left, value, currentPath, resultPath)) {
-            return true;
-        }
-        currentPath.remove(currentPath.size() - 1);
-        
-        currentPath.add('R');
-        if (findPath(root.right, value, currentPath, resultPath)) {
-            return true;
-        }
-        currentPath.remove(currentPath.size() - 1);
-        
+    public boolean pathFind(TreeNode root, int val, StringBuilder path){
+        if(root == null) return false;
+        if(root.val == val) return true;
+
+        path.append('L');
+        if(pathFind(root.left, val, path)) return true;
+        path.deleteCharAt(path.length()-1);
+
+        path.append('R');
+        if(pathFind(root.right, val, path)) return true;
+        path.deleteCharAt(path.length()-1);
+
         return false;
+    }
+    public TreeNode lca(TreeNode root, int p, int q){
+        if(root==null || root.val == p || root.val == q){
+            return root;
+        }
+        TreeNode left = lca(root.left, p , q);
+        TreeNode right = lca(root.right, p, q);
+
+        if(left == null) return right; //if left=null then return right node
+        else if(right == null) return left; //right==null return left only
+        else return root; //if both left & right had node then its parent return = LCA
     }
 }
