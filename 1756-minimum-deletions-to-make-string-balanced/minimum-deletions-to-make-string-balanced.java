@@ -1,22 +1,16 @@
 class Solution {
     public int minimumDeletions(String s) {
-        int n = s.length();
-        int[] cntA = new int[n];
-        int[] cntB = new int[n];
-        int aCnt=0, bCnt=0;
-        for(int i=0; i<n; i++){
-            cntB[i] = bCnt;
-            if(s.charAt(i)=='b') bCnt++; 
+        int cnt=0;
+        Stack<Character> st = new Stack<>();
+        st.push(s.charAt(0));
+        for(int i=1; i<s.length(); i++){
+            if(!st.isEmpty() && s.charAt(i)=='a' && st.peek()=='b' ){
+                st.pop();
+                cnt++;
+                continue;
+            }
+            st.push(s.charAt(i));
         }
-
-        for(int i=n-1; i>=0; i--){
-            cntA[i] = aCnt;
-            if(s.charAt(i)=='a') aCnt++;
-        }
-        int minDel=n;
-        for(int i=0; i<n; i++){
-            minDel = Math.min(minDel, cntA[i] + cntB[i]);
-        }
-        return minDel;
+        return cnt;
     }
 }
